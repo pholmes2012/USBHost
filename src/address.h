@@ -44,6 +44,7 @@ struct EpInfo
 	uint32_t		deviceEpNum;					// Device endpoint number
 	uint32_t		hostPipeNum;					// Host corresponding pipe number
 	uint32_t		maxPktSize;						// Maximum packet size
+	uint32_t		ID;								// Identifier
 
 	union
 	{

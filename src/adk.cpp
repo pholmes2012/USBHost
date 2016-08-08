@@ -326,10 +326,10 @@ void ADK::EndpointXtract(uint32_t conf, uint32_t iface, uint32_t alt, uint32_t p
 	epInfo[index].deviceEpNum = pep->bEndpointAddress & 0x0F;
 	epInfo[index].maxPktSize = pep->wMaxPacketSize;
 
-	TRACE_USBHOST(printf("ADK::EndpointXtract : Found new endpoint\r\n");)
-	TRACE_USBHOST(printf("ADK::EndpointXtract : deviceEpNum: %lu\r\n", epInfo[index].deviceEpNum);)
-	TRACE_USBHOST(printf("ADK::EndpointXtract : maxPktSize: %lu\r\n", epInfo[index].maxPktSize);)
-	TRACE_USBHOST(printf("ADK::EndpointXtract : index: %lu\r\n", index);)
+	TRACE_USBHOST(debugOut("ADK::EndpointXtract : Found new endpoint");)
+	TRACE_USBHOST(debugOut("ADK::EndpointXtract : deviceEpNum: %lu", epInfo[index].deviceEpNum);)
+	TRACE_USBHOST(debugOut("ADK::EndpointXtract : maxPktSize: %lu", epInfo[index].maxPktSize);)
+	TRACE_USBHOST(debugOut("ADK::EndpointXtract : index: %lu", index);)
 
 	if (index == epDataInIndex)
 		pipe = UHD_Pipe_Alloc(bAddress, epInfo[index].deviceEpNum, UOTGHS_HSTPIPCFG_PTYPE_BLK, UOTGHS_HSTPIPCFG_PTOKEN_IN, epInfo[index].maxPktSize, 0, UOTGHS_HSTPIPCFG_PBK_1_BANK);
@@ -339,7 +339,7 @@ void ADK::EndpointXtract(uint32_t conf, uint32_t iface, uint32_t alt, uint32_t p
 	// Ensure pipe allocation is okay
 	if (pipe == 0)
 	{
-		TRACE_USBHOST(printf("ADK::EndpointXtract : Pipe allocation failure\r\n");)
+		TRACE_USBHOST(debugOut("ADK::EndpointXtract : Pipe allocation failure");)
 		// Enumeration failed, so user should not perform write/read since isConnected will return false
 		return;
 	}

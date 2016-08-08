@@ -25,6 +25,11 @@ e-mail   :  support@circuitsathome.com
 #include "Arduino.h"
 #include "confdescparser.h"
 
+// Don't worry, GCC will optimize the result to a final value.
+#define bitsEndpoints(p) ((((p) & HID_PROTOCOL_KEYBOARD)? 2 : 0) | (((p) & HID_PROTOCOL_MOUSE)? 1 : 0))
+#define totalEndpoints(p) ((bitsEndpoints(p) == 3) ? 3 : 2)
+#define epMUL(p) ((((p) & HID_PROTOCOL_KEYBOARD)? 1 : 0) + (((p) & HID_PROTOCOL_MOUSE)? 1 : 0))
+
 #define KEY_SPACE					0x2c
 #define KEY_ZERO					0x27
 #define KEY_ZERO2					0x62

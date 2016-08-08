@@ -19,8 +19,8 @@ e-mail   :  support@circuitsathome.com
 #ifndef USB_H_INCLUDED
 #define USB_H_INCLUDED
 
-//#define TRACE_USBHOST(x)	x
-#define TRACE_USBHOST(x)
+#define TRACE_USBHOST(x)	x
+//#define TRACE_USBHOST(x)
 
 #include <stdint.h>
 #include "usb_ch9.h"
@@ -64,6 +64,7 @@ e-mail   :  support@circuitsathome.com
 #define USB_ERROR_CLASS_INSTANCE_ALREADY_IN_USE		0xD9
 #define USB_ERROR_INVALID_MAX_PKT_SIZE				0xDA
 #define USB_ERROR_EP_NOT_FOUND_IN_TBL				0xDB
+#define USB_ERROR_DISCONNECTED						0xDC
 #define USB_ERROR_TRANSFER_TIMEOUT					0xFF
 
 #define USB_XFER_TIMEOUT		5000    //USB transfer timeout in milliseconds, per section 9.2.6.1 of USB 2.0 spec
@@ -175,18 +176,7 @@ class USBHost
 			return (AddressPool&)addrPool;
 		};
 
-		uint32_t RegisterDeviceClass(USBDeviceConfig *pdev)
-		{
-			for (uint32_t i = 0; i < USB_NUMDEVICES; ++i)
-			{
-				if (!devConfig[i])
-				{
-					devConfig[i] = pdev;
-					return 0;
-				}
-			}
-			return USB_ERROR_UNABLE_TO_REGISTER_DEVICE_CLASS;
-		};
+		uint32_t RegisterDeviceClass(USBDeviceConfig *pdev);
 
 		void ForEachUsbDevice(UsbDeviceHandleFunc pfunc)
 		{
@@ -214,7 +204,7 @@ class USBHost
 		uint32_t outTransfer(uint32_t addr, uint32_t ep, uint32_t nbytes, uint8_t* data);
         uint32_t dispatchPkt(uint32_t token, uint32_t ep, uint32_t nak_limit);
 
-        void Task(void);
+        uint32_t Task(void);
 
 		uint32_t DefaultAddressing(uint32_t parent, uint32_t port, uint32_t lowspeed);
 		uint32_t Configuring(uint32_t parent, uint32_t port, uint32_t lowspeed);
@@ -226,5 +216,7 @@ class USBHost
 		uint32_t OutTransfer(EpInfo *pep, uint32_t nak_limit, uint32_t nbytes, uint8_t *data);
 		uint32_t InTransfer(EpInfo *pep, uint32_t nak_limit, uint32_t *nbytesptr, uint8_t* data);
 };
+
+extern void debugOut(const char* text, ...);
 
 #endif /* USB_H_INCLUDED */

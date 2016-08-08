@@ -94,6 +94,7 @@ e-mail   :  support@circuitsathome.com
 #define HID_PROTOCOL_NONE           0x00
 #define HID_PROTOCOL_KEYBOARD       0x01
 #define HID_PROTOCOL_MOUSE          0x02
+#define HID_PROTOCOL_GP		        0x03
 
 /**
  * \brief HidItemPrefix definition.
